@@ -1,0 +1,70 @@
+Protocol: tomo_sp_cu_s, v1.1 (Gaussian rays)
+========================================================
+ PERIOD= 50(sec)
+ INFILE=data_50
+ OUTFILE=TEST_2000_450_1000
+ model=   Y 
+ weights=   Y 
+ dens & azimuth maps=Y
+ selection= N
+ percent map=Y
+ anisotropy=Y 2-psi type
+ rejection by %=N
+ rejection by dist=N
+ residuals= Y
+ covariance matrix= N
+ geogr-->geoc= Y
+ geoc-->geogr= Y
+ resolution analysis = Y
+ input data format = Y
+ RAY TRACER mode = N
+ resolution response maps = N
+ Model file name is: CU_Lp_50
+ Contour file name is: contour.ctr
+ 0PSI: alpha1, alpha2, sigma1, sigma2 2000.000  1.000  450.000  450.000
+ 2PSI: alpha1,         sigma1, sigma2 1000.000         600.000  600.000
+ 0PSI-prec, 2PSI-prec, 4PSI-prec     8.0     8.0     8.0
+ Limits of latitude:      -89.00      89.00  Increment= 1.000 npoints=  179
+ Limits of longitude:       0.00     359.00  Increment= 1.000 npoints=  360
+ Step of integration: 0.2500
+ Rayleigh/Love: R
+ Group/Phase velocity: P
+ Model for slowness: PREM.MODEL
+ Azimus pole: lat =    0.00, lon =    0.00
+THERE WERE   4000 PATHS; only    4000 PATHS LEFT
+    SQUARE ROOT mean velocity=   4.498 km/sec
+Input      - <Thu Feb 28 15:21:24 2013>, Duration:  0: 0: 0     0
+Isotropic grid cells:
+ Average square of cells is:    23.7906350919 (deg**2)
+ Average length of cells is:     4.8775644631 (deg)
+Anisotropy grid cells:
+ Average square of cells is:    40.6833937371 (deg**2)
+ Average length of cells is:     6.3783535287 (deg)
+ Point outside contour: Lat=   0.700 Lon=    0.700
+ n_pnt1 =            8  na_pnt =            6
+ Cells:         1736 , nm=        1736 , nd+1=          18 , aniz=           0
+ Cells:         1016 , nma=        1016 , nda+1=          14 , aniz=           1
+Normalization factors: Isotr -  2.41176, Aniz:  3.15385
+    Number of Paths=   4000
+ R1 traces:        2000  R2 Traces:        2000
+ Number of integrals are:         4000
+SQRT of initial residuals dispersion are:    20.517 sec /    7.348/
+SQ_RT of initial velocities dispersion are:   0.02186 km/sec
+Integrals  - <Thu Feb 28 15:21:46 2013>, Duration:  0: 0:22    22
+  MAXIMUM of asimutal parameter is :    149.6348    
+Gauss      - <Thu Feb 28 15:21:47 2013>, Duration:  0: 0: 1     1
+ Matrix is done
+ Matrix elements:   147379600  Zero are:      370324
+ Total number of matrix lines are        7768
+ Maximum intersections/cell are:    111.0858      R1:   111.0858      R2:   0.000000    
+ Isotropy   Trace/Size F  15551237.0000
+ Anisotropy Trace/Size F   7082101.0000
+Inversion  - <Thu Feb 28 15:22:23 2013>, Duration:  0: 0:36    36
+Matrix condition =    0.767522E-03
+Res_matrix - <Thu Feb 28 15:22:53 2013>, Duration:  0: 0:30    30
+ Matrix elements=     3013696 , Maximal deviation =  1.7332709E-03
+Res_analys - <Thu Feb 28 15:22:55 2013>, Duration:  0: 0: 2     2
+SQRT of final residuals dispersion are:    16.605 sec /    9.033/
+SQ_RT of final velocities dispersion are:   0.01784 km/sec
+Velocities - <Thu Feb 28 15:23:04 2013>, Duration:  0: 0: 9     9
+ average velocity  =      4.50598 (km/sec), npoints=  64440

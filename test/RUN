@@ -1,0 +1,46 @@
+#!/bin/tcsh
+set sig=450
+foreach al (1000)
+foreach f (2000)
+../bin/tomo_sp_cu_s data_50 TEST_${f}_${sig}_${al} 50 << EOF
+me
+0
+1
+4
+5
+-89 89 1
+6
+0 359 1
+10
+.25
+R
+P
+5
+6
+11
+1
+12
+$f
+1
+$sig
+$sig
+13
+$al
+600
+600
+17
+CU_Lp_50
+18
+PREM.MODEL
+19
+23
+0.0 0.0
+25
+26
+x
+v
+go
+EOF
+end
+end
+exit
