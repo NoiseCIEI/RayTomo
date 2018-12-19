@@ -18,7 +18,7 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
       data text/
      *'  5.) Limits of the map (latitudes,step) ............',
      *'  6.) Limits of the map (longitudes,step) ...........',
-     *' 10.) Step,R/L,G/P,Size of cells:iso,anis ...........',
+     *' 10.) Step,X-zone,R/L,G/P,Size of cells:iso,anis.....',
      *' 12.) 0PSI: alpha1, alpha2, sigma1, sigma2...........',
      *' 13.) 2PSI: alpha1,         sigma1, sigma2...........',
      *' 14.) 4PSI: alpha1,         sigma1, sigma2...........',
@@ -41,8 +41,8 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
       write(*,*) ' 7.) Map of deviations in %?...........(toggle)...',isymb
       write(*,*) ' 8.) Rejecting too strange data?.......(toggle)...',ireje
       write(*,*) ' 9.) Rejecting data by wavelength?.....(toggle)...',irejd
-      write(*,1001) text(3),step0,re_la,gr_pha,cell,cell_a
-      write(*,*) '11.) anisotropy: 0 - no, 1 - 2psi, 2 - 2&4psi.....',ianiz
+      write(*,1001) text(3),step0,x_zone,re_la,gr_pha,cell,cell_a
+      write(*,*) '11.) anisotropy: 0-no,1-2psi,2-2&4psi,3-4psi......',ianiz+istrip
       write(*,1006) text(4),alsi(1,1),alsi(1,2),alsi(1,3),alsi(1,4)
       write(*,1007) text(5),alsi(2,1),          alsi(2,3),alsi(2,4)
       write(*,1007) text(6),alsi(3,1),          alsi(3,3),alsi(3,4)
@@ -58,6 +58,7 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
       write(*,*) '21.) Apply geogr --> geoc for input....(toggle)...',icoord
       write(*,*) '22.) Apply geoc --> geogr for output...(toggle)...',icoout
       write(*,1000) text(11),pf,pl
+      write(*,*) '24.) Apply Fresnel zones?..............(toggle)...',itomo
       write(*,*) '25.) Produce resolution analysis map?..(toggle)...',iresol
       write(*,*) '26.) Use new input data format R1/R2?..(toggle)...',iold
       write(*,*) '27.) Use RAY TRACER mode?..............(toggle)...',itrace
@@ -73,7 +74,7 @@ c
       read(*,4) c
  4    format(a2)
 1000  format(A55,3F8.2)
-1001  format(A55,F6.3,1x,2(a1,1x),3f6.3)
+1001  format(A55,2F6.3,1x,2(a1,1x),3f6.3)
 1006  format(A55,f8.3,f7.3,2f9.3)
 1007  format(A55,f8.3,7x,2f9.3)
 1008  format(A55,3f8.1)
@@ -150,6 +151,8 @@ c
       else if(c(1:lc).eq.'10') then
         write(*,*) 'Step of integration'
         read(*,*) step0 
+        write(*,*) 'X-zone'
+        read(*,*) x_zone
         write(*,*) 'enter type of wave (Rayleigh, Love): R or L)'
         read(*,'(a1)') re_la
         write(*,*) 'enter type of velocity (Group, Phase): G or P)'
@@ -168,11 +171,16 @@ c
         na_pnt=SQRT(2.*pi/3.)*180./pi/cell_a
         na_pnt=na_pnt/2
       else if(c(1:lc).eq.'11') then
+        istrip = 0
         write(*,*) 'enter type of anisotropy: 0 - no, 1 - 2psi, 2 - 2&4psi'
         read(*,*) ianiz
-        if(ianiz.ne.0.and.ianiz.ne.1.and.ianiz.ne.2) then
+        if(ianiz.ne.0.and.ianiz.ne.1.and.ianiz.ne.2.and.ianiz.ne.3) then
           write(*,*) 'BAD type of anisotropy,asumed no anisotropy'
           ianiz=0
+        endif
+        if(ianiz.eq.3) then
+          ianiz = 1
+          istrip = 2
         endif
       else if(c(1:lc).eq.'12') then
         write(*,*) 'enter regularization parameters for 0PSI'
@@ -223,7 +231,11 @@ c
         write(*,*) 'enter pole lat and lon '
         read(*,*) pf,pl 
       else if(c(1:lc).eq.'24') then
+        if(itomo.eq.1) then
           itomo=0
+        else
+          itomo=1
+        endif
       else if(c(1:lc).eq.'25') then
         if(iresol.eq.1)then
           iresol=0

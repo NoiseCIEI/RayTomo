@@ -141,7 +141,8 @@ c         if(del.le.DBLE(tresh)) then
           if(del.le.DBLE(sig1*1.2)) then
             ilo=ilocr(i)
             s3=DABS(DBLE(ff(ilo)))
-            if(ilo.ne.0.and.s3.gt.atresh) then
+c           if(ilo.ne.0.and.s3.gt.atresh) then
+            if(ilo.ne.0) then
               dc=2.0d0*dpi*del/dlcell
               s2=s2+s3*del*del/dc
               wc=wc+ABS(ff(ilo))/dc

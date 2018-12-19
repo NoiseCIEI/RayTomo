@@ -68,9 +68,9 @@ C--------- Creation cellular net ------------------------------------
       write(8,*)'Cells: ',nall,', nm=',nm,', nd+1=',nd+1,', aniz=',0
       if(ianiz.ne.0) then
         write(*,*)'Cells: ',nalla,', nma=',nma,', nda+1=',nda+1,
-     +  ', aniz=',ianiz
+     +  ', aniz=',ianiz+istrip
         write(8,*)'Cells: ',nalla,', nma=',nma,', nda+1=',nda+1,
-     +  ', aniz=',ianiz
+     +  ', aniz=',ianiz+istrip
         wnorm=FLOAT(2*n_pnt+1)/FLOAT(2*na_pnt+1)
         wexp1=wexp*wnorm
         write(8,1000) wexp,wexp1
@@ -190,11 +190,11 @@ c
 c
 c    compute fresnel zone
 c
-cxx   else
-cxx   CALL FRESNEL(type,type1,delta,x1,x2,xn,IRAY2(i),nm,lidd,nlidd,
-cxx  +denf,den1f,den2f,ff,tc00,ierr)
-cxx   tinmod(i)=-1.0d0
-cxx   if(nlidd.eq.0) goto 6
+      else
+      CALL FRESNEL(type,type1,delta,x1,x2,xn,IRAY2(i),nm,lidd,nlidd,
+     +denf,den1f,den2f,ff,tc00,ierr)
+      tinmod(i)=-1.0d0
+      if(nlidd.eq.0) goto 6
       endif
 c
 c compute anisotropy along the Gaussian ray
@@ -678,6 +678,7 @@ c
       goto 120
       endif
       CALL DUAZI(xk,yk,duaz)
+c     write(*,*)duaz
 c
 c   Main output
 c
@@ -685,13 +686,26 @@ c
         vvv=value1/(1.+value(1))
         rrr=value(2)*vvv*vvv/value1
         rrrr=value(3)*vvv*vvv/value1
-        value(2)=(rrr*DCOS(2.0d0*duaz)+rrrr*DSIN(2.0d0*duaz))
-        value(3)=(-rrr*DSIN(2.0d0*duaz)+rrrr*DCOS(2.0d0*duaz))
-        vamp1=SQRT(value(2)*value(2)+value(3)*value(3))
-        vph1=(pi/4.0 - ATAN2(value(2),value(3))/2.0)/const
-        if(vph1.lt.0.0)vph1=vph1+360.0
-        write(10,1004)dlon0+(j-1)*s_lon,dlat0+(k-1)*s_lat,
-     *  vvv,value1,value(1),vamp1,vph1,value(2),value(3)
+        if(istrip.eq.0) then
+          value(2)=(rrr*DCOS(2.0d0*duaz)+rrrr*DSIN(2.0d0*duaz))
+          value(3)=(-rrr*DSIN(2.0d0*duaz)+rrrr*DCOS(2.0d0*duaz))
+          vamp1=SQRT(value(2)*value(2)+value(3)*value(3))
+          vph1=(pi/4.0 - ATAN2(value(2),value(3))/2.0)/const
+          if(vph1.lt.0.0)vph1=vph1+360.0
+          write(10,1004)dlon0+(j-1)*s_lon,dlat0+(k-1)*s_lat,
+     *    vvv,value1,value(1),vamp1,vph1,value(2),value(3)
+        else
+          value(2)=(rrr*DCOS(4.0d0*duaz)+rrrr*DSIN(4.0d0*duaz))
+          value(3)=(-rrr*DSIN(4.0d0*duaz)+rrrr*DCOS(4.0d0*duaz))
+          vamp1=SQRT(value(2)*value(2)+value(3)*value(3))
+          vph1=(pi/8.0 - ATAN2(value(2),value(3))/4.0)/const
+          if(vph1.lt.0.0)vph1=vph1+360.0
+          write(10,1004)dlon0+(j-1)*s_lon,dlat0+(k-1)*s_lat,
+     *         vvv,value1,value(1),0.0,0.0,0.0,0.0,
+     *         vamp1,vph1,value(2),value(3)
+        endif
+cxx     vph1=ATAN2(rrrr,rrr)/2.0/const
+cxx     if(vph1.lt.0.0)vph1=vph1+360.0
       else if(ianiz.eq.2) then
 c*************************************************
         vvv=value1/(1.+value(1))
@@ -821,15 +835,15 @@ c
    82 continue
       if(tinmod(i).lt.0.0d0) goto 3
       if(dlen.le.0.01) goto 3
-cxx   else 
+      else 
 c
 c compute residuals for fresnel zone
 c
-cxx   fsum1=0.0d0
-cxx   CALL FR_RES(type,type1,delta,x1,x2,xn,IRAY2(i),nmm,fsum1,fsl,n_p,ierr)
-cxx   if(tinmod(i).lt.0.0d0) goto 3
-cxx   if(n_p.eq.0) goto 3
-cxx   fsum=SNGL(fsum1)+fsum
+      fsum1=0.0d0
+      CALL FR_RES(type,type1,delta,x1,x2,xn,IRAY2(i),nmm,fsum1,fsl,n_p,ierr)
+      if(tinmod(i).lt.0.0d0) goto 3
+      if(n_p.eq.0) goto 3
+      fsum=SNGL(fsum1)+fsum
       endif
 c
 c compute residuals for anisotropic part
@@ -902,6 +916,7 @@ c****************************************************************
       dff=e(3)
       if(DABS(dff).gt.1.d0) dff=DSIGN(1.d0,e(3))
       dff=DACOS(dff)/drad
+      if(lcoord) dff = 90.0d0-datan(dtan((90.0d0-dff)*drad)/GEO)/drad
       i=dfl+1.d0
       j=dff+1.d0
       if(i.lt.1)i=1
@@ -932,6 +947,7 @@ c****************************************************************
       dfl=yk/drad
       if(dfl.lt.0.d0)dfl=dfl+360.d0
       dff=xk/drad
+      if(lcoord) dff = 90.0d0-datan(dtan((90.0d0-dff)*drad)/GEO)/drad
       i=dfl+1.d0
       j=dff+1.d0
       if(i.lt.1)i=1

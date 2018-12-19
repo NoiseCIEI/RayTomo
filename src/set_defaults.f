@@ -27,10 +27,11 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
       itrace=0
       ipoint=0
 c**   alpha setup *******************
-      alsi(1,1)=1000.
+      istrip = 0
+      alsi(1,1)=1400.
       alsi(1,2)=1.
-      alsi(1,3)=250.
-      alsi(1,4)=250.
+      alsi(1,3)=200.
+      alsi(1,4)=200.
       alsi(1,5)=8.
       alsi(2,1)=800.
       alsi(2,2)=1.
@@ -65,7 +66,7 @@ c*****************
       eqlat_n=30.
       eqlon_n=85.
       nwavep=5
-      pf=0.0d0
+      pf=90.0d0
       pl=0.0d0
       dump1=-0.147130
       dump2=-0.147130
@@ -87,7 +88,7 @@ c***     End Constants ******************************
       ltrace=LOGI(itrace)
       lpoint=LOGI(ipoint)
 c    main grid ==================================
-      cell=2.5
+      cell=2.0
       n_pnt1=SQRT(2.*pi/3.)*180./pi/2.
       n_pnt1=n_pnt1/2
       n_pnt=SQRT(2.*pi/3.)*180./pi/cell
@@ -100,7 +101,7 @@ c    anisotropy grid ==================================
       na_pnt=SQRT(2.*pi/3.)*180./pi/cell_a
       na_pnt=na_pnt/2
 c====================================================
-      step0=.5d0
+      step0=.25d0
       fname1='contour.ctr'
       fname2='model_map.ctr'
       fname5='PREM.MODEL'

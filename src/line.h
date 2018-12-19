@@ -1,9 +1,9 @@
 c****** CELLULAR PAAMETERS, (isotr. part) ************************
       integer*4 NCELL
-      parameter (NCELL=64000)
+      parameter (NCELL=4900000)
 c---------------COMMON /mat/---------------------------------------
       integer*4    nnd,nd
-      real*8 drad,dpi,dt(201),dr(202)
+      real*8 drad,dpi,dt(901),dr(902)
       common /mat/nnd,nd,dpi,drad,dt,dr
 c---------------COMMON /win/---------------------------------------
       integer*4    n0,m0,nnn,mmm

@@ -33,7 +33,7 @@ cxx   CALL SPLINE(16,pe_re,c_re,am_re,2,0.,2,0.)
 cxx   CALL SPLDER(1,16,pe_re,c_re,am_re,Tper,phv_re,dum,dum1,*993)
 
       period=tper
-      CALL GET_SLOW(re_la,gr_pha,period,slo,ierr)
+      CALL GET_SLOW(re_la,period,slo,ierr)
       if(ierr.ne.0) stop '(R0015) 1-D model period is out of range'
       phv_re=1.0d0/slo
 

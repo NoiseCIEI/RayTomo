@@ -116,10 +116,15 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
    40 do mo=1,NAZIP
       ncl1=nmm+nmma*(mo-2)+ncl
 cxx   if(mo.eq.1) ff(ncl1)=ff(ncl1)+w(j)*worazi
-      if(mo.eq.2) ff(ncl1)=ff(ncl1)-w(j)*worazi*DCOS(2.0d0*azms)
-      if(mo.eq.3) ff(ncl1)=ff(ncl1)-w(j)*worazi*DSIN(2.0d0*azms)
-      if(mo.eq.4) ff(ncl1)=ff(ncl1)-w(j)*worazi*DCOS(4.0d0*azms)
-      if(mo.eq.5) ff(ncl1)=ff(ncl1)-w(j)*worazi*DSIN(4.0d0*azms)
+      if(istrip.eq.2) then
+        if(mo.eq.2) ff(ncl1)=ff(ncl1)-w(j)*worazi*DCOS(4.0d0*azms)
+        if(mo.eq.3) ff(ncl1)=ff(ncl1)-w(j)*worazi*DSIN(4.0d0*azms)
+      else
+        if(mo.eq.2) ff(ncl1)=ff(ncl1)-w(j)*worazi*DCOS(2.0d0*azms)
+        if(mo.eq.3) ff(ncl1)=ff(ncl1)-w(j)*worazi*DSIN(2.0d0*azms)
+        if(mo.eq.4) ff(ncl1)=ff(ncl1)-w(j)*worazi*DCOS(4.0d0*azms)
+        if(mo.eq.5) ff(ncl1)=ff(ncl1)-w(j)*worazi*DSIN(4.0d0*azms)
+      endif
       enddo
       if(ncoin0.ne.ncoin) then 
 cxx     denf(ncl)=1.0
@@ -162,10 +167,15 @@ c END TYPE definitions ++++++++++++++++++++++++++++++++++
    10 w(j)=fsl(nmm+nmma*(mo-2)+nclo)
       CALL TRIAI_2(grid,e,w,scell)
 cxx   if(mo.eq.1) dsum=dsum+scell*smult
-      if(mo.eq.2) dsum=dsum-scell*smult*DCOS(2.0d0*azms)
-      if(mo.eq.3) dsum=dsum-scell*smult*DSIN(2.0d0*azms)
-      if(mo.eq.4) dsum=dsum-scell*smult*DCOS(4.0d0*azms)
-      if(mo.eq.5) dsum=dsum-scell*smult*DSIN(4.0d0*azms)
+      if(istrip.eq.2) then
+        if(mo.eq.2) dsum=dsum-scell*smult*DCOS(4.0d0*azms)
+        if(mo.eq.3) dsum=dsum-scell*smult*DSIN(4.0d0*azms)
+      else
+        if(mo.eq.2) dsum=dsum-scell*smult*DCOS(2.0d0*azms)
+        if(mo.eq.3) dsum=dsum-scell*smult*DSIN(2.0d0*azms)
+        if(mo.eq.4) dsum=dsum-scell*smult*DCOS(4.0d0*azms)
+        if(mo.eq.5) dsum=dsum-scell*smult*DSIN(4.0d0*azms)
+      endif
    20 continue
       sum=dsum
       return

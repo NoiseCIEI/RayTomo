@@ -9,7 +9,7 @@ cxx   parameter (NRAZ=2700,NINP=15000,NALPH=4,NAZIPL=3,IAZIM=10)
 cxx   parameter (NRAZ=4000,NINP=700000,NALPH=4,NAZIPL=3,IAZIM=10)
 cxx   parameter (NRAZ=7410,NINP=300000,NALPH=4,NAZIPL=3,IAZIM=10)
 cxx   parameter (NRAZ=2650,NRAZA=1020,NINP=70000,NALPH=4,NAZIPL=3,IAZIM=10)
-      parameter (NRAZ=10100,NRAZA=1020,NINP=100000,NALPH=4,NAZIPL=3,IAZIM=10)
+      parameter (NRAZ=8740,NRAZA=3740,NINP=1300000,NALPH=4,NAZIPL=3,IAZIM=10)
 c----------------------COMMON /charac/-----------------------------
       character*160 namout,namein,outfile(NALPH)
       character*18 com
@@ -49,8 +49,8 @@ c-----------------------COMMON /men/--------------------------------
      +eqlat0,eqlon0,eqlat_n,eqlon_n,slat0,slat_n,slon0,slon_n,wexp,
      +dump1,dump2
       character*4 re_la,gr_pha
-      integer*4 ncoin0,ireg,ipath,n_pnt,na_pnt,nlat,nlon,nwavep
-      common/men/ step0,x_zone,ncoin0,cell,cell_a,ireg,ipath,alph1,
+      integer*4 istrip,ncoin0,ireg,ipath,n_pnt,na_pnt,nlat,nlon,nwavep
+      common/men/ step0,x_zone,ncoin0,cell,cell_a,ireg,ipath,alph1,istrip,
      +alsi,dlat0,dlat_n,s_lat,dlon0,dlon_n,s_lon,eqlat0,eqlon0,eqlat_n,
      +eqlon_n,slat0,slat_n,slon0,slon_n,n_pnt,na_pnt,nlat,nlon,wexp,
      +dump1,dump2,nwavep,re_la,gr_pha

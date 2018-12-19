@@ -128,22 +128,24 @@ c
       end if
       end if
       NMAX=ipath
-      write(8,'("Protocol: ",a," (Gaussian rays)"/56(1H=))') VERSION
-      write(*,'("Protocol: ",a," (Gaussian rays)"/56(1H=))') VERSION
+      if(itomo.eq.0)write(8,'("Protocol: ",a," (Gaussian rays)"/56(1H=))') VERSION
+      if(itomo.eq.1)write(8,'("Protocol: ",a," (Fresnel zones)"/56(1H=))') VERSION
+      if(itomo.eq.0)write(*,'("Protocol: ",a," (Gaussian rays)"/56(1H=))') VERSION
+      if(itomo.eq.1)write(*,'("Protocol: ",a," (Fresnel zones)"/56(1H=))') VERSION
       write (8,2000), period(1:lp)
 2000  FORMAT(' PERIOD= ',a,'(sec)' )
       l1=lnblnk(namein)
       l2=lnblnk(namout)
       WRITE(8,2002),namein(1:l1),namout(1:l2)
 2002  FORMAT( ' INFILE=',a,6x,/,' OUTFILE=',a)
-      write(8,2003) smodel,swght,sres,ssele,ssymb,saniz,2*ianiz,sreje,
-     +srejd,sresid,sdresol,scoord,scoout,sresol,sold,strace,spoint
+      write(8,2003) smodel,swght,sres,ssele,ssymb,saniz,2*ianiz+istrip,sreje,
+     +srejd,sresid,sdresol,scoord,scoout,stomo,sresol,sold,strace,spoint
 2003  format(' model=   ',a1,' '/' weights=   ',a1,' '/
      +' dens & azimuth maps=',a1/' selection= '
      +,a1 /' percent map=',a1/' anisotropy=',a1,' ',i1,'-psi type'/
      +' rejection by %=',a1/' rejection by dist=',a1/' residuals= ',a1,/
      +' covariance matrix= ',a1,/' geogr-->geoc= ',a1/' geoc-->geogr= ',a1/
-     +' resolution analysis = ',a1,/
+     +' Fresnel zone= ',a1,/' resolution analysis = ',a1,/
      +' input data format = ',a1,/' RAY TRACER mode = ',a1,/
      +' resolution response maps = ',a1)
       if(imodel.ne.0) then
@@ -155,7 +157,13 @@ c
 2013  format(' Contour file name is: ',a)
 2014  format(' Model file name is: ',a)
       write(8,2004) alsi(1,1),alsi(1,2),alsi(1,3),alsi(1,4)
-      if(ianiz.gt.0) write(8,2010) alsi(2,1),alsi(2,3),alsi(2,4)
+      if(istrip.eq.2) then
+        alsi(2,1) = alsi(3,1)
+        alsi(2,3) = alsi(3,3)
+        alsi(2,4) = alsi(3,4)
+      endif
+      if(ianiz.gt.0.and.istrip.eq.0) write(8,2010) alsi(2,1),alsi(2,3),alsi(2,4)
+      if(ianiz.gt.0.and.istrip.eq.2) write(8,2009) alsi(2,1),alsi(2,3),alsi(2,4)
       if(ianiz.gt.1) write(8,2009) alsi(3,1),alsi(3,3),alsi(3,4)
       write(8,2012) alsi(1,5),alsi(2,5),alsi(3,5)
 2004  format(' 0PSI: alpha1, alpha2, sigma1, sigma2 ',f8.3,f7.3,2f9.3)
@@ -178,6 +186,8 @@ c
      *       '                                longitudes: ',2(F8.2,1X))
       write (8,2020) step0
 2020  format(' Step of integration:',f7.4)
+      write (8,2011) x_zone
+2011  format(' X-zone:',f7.4)
       write (8,2016) re_la
 2016  format(' Rayleigh/Love: ',a1)
       write (8,2018) gr_pha

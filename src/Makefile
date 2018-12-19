@@ -2,7 +2,7 @@
 INST_DIR = ../bin
 BIN  = tomo_sp_cu_s
 
-fflags =  -O -ffixed-line-length-none
+fflags = -O2 -ffixed-line-length-none
 
 FFLAGS = $(DBG)  $(fflags) $(shlib)
 
@@ -15,7 +15,7 @@ DBG =
 FOBJS = tomo_sp_cu.o help.o init.o menu.o set_defaults.o reader.o \
 	m1.o rejector.o rejedel.o perc_map.o swt_sph.o line.o \
 	tria.o driver_2.o trass.o model.o spl.o cell_a.o \
-	get_slow.o function.o matrix.o ec.o \
+	fresnel.o function.o matrix.o ec.o \
 	res_anal.o res_form.o res_tria.o res_outp.o
 
 $(BIN) : $(FOBJS)

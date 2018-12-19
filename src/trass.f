@@ -32,8 +32,8 @@ c
       z0(1)=DCOS(ff0*drad)*DCOS(fl0*drad)
       z0(2)=DCOS(ff0*drad)*DSIN(fl0*drad)
       z0(3)=DSIN(ff0*drad)
-      write(*,"(' Point outside contour: Lat= ',f7.3,' Lon= ',f8.3)")
-     +ff0,fl0
+      write(*,"(' Point outside contour: Lat= ',f7.3,' Lon= ',f8.3,i5)")
+     +ff0,fl0,nd
       write(8,"(' Point outside contour: Lat= ',f7.3,' Lon= ',f8.3)")
      +ff0,fl0
       read(15,*)lcrdt

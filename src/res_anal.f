@@ -63,6 +63,8 @@ c
 c
 c  Build cone with radius sig1(l) and Gaussian shape with sig2(l)
 c
+        sig1(l) = -1.0
+        sig2(l) = -1.0
         CALL RES_TRIA(lidd,nlidd,l,nm,ff_mat,amp1(l),sig1(l),sig2(l),n1,n2,
      +  tresh,ierr)
         sn1(l)=n1
@@ -74,16 +76,17 @@ c
 c
 c  Added the next line at 08/13/99 - minimal sigma=2* cellsize
 c
-        if(sig2(l).lt.SNGL(dlcell)/2.0) sig2(l)=SNGL(dlcell)/2.0
+        if(sig2(l).lt.SNGL(dlcell)/2.0.and.sig2(l).gt.0.0) sig2(l)=SNGL(dlcell)/2.0
 c
 c  convert sig2(l) from degree to km
 c
         sig2(l)=sig2(l)*const*R
 c
-c Cut sig1 & sig2 to range 50 - tresh km. tresh=4000 km
+c Cut sig1 & sig2 to range 0 - tresh km. tresh=2000 km
 c
         if(sig1(l).lt.0.0.or.sig1(l).gt.tresh) sig1(l)=tresh
         if(sig2(l).lt.0.0.or.sig2(l).gt.tresh) sig2(l)=tresh
+cxxxx   if(n2.eq.1) sig2(l)=tresh
 c
 c  Approximate output shape with cilinder
 c
